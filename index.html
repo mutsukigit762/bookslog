@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>読書記録</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap');
+
+:root {
+–bg: #f5f2ee;
+–surface: #fdfbf8;
+–border: #ddd8d0;
+–text: #2a2520;
+–text-muted: #9e9890;
+–accent: #3d3530;
+–tag-done: #2a2520;
+–tag-reading: #9e9890;
+–tag-buy: #5c4a3a;
+–tag-borrow: #7a8c7a;
+–danger: #c0392b;
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+font-family: ‘Noto Serif JP’, serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+padding-bottom: 80px;
+}
+
+/* ヘッダー */
+header {
+background: var(–surface);
+border-bottom: 1px solid var(–border);
+padding: 20px 20px 16px;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+
+header h1 {
+font-size: 18px;
+font-weight: 600;
+letter-spacing: 0.08em;
+color: var(–text);
+}
+
+header .subtitle {
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+color: var(–text-muted);
+margin-top: 2px;
+letter-spacing: 0.05em;
+}
+
+.header-actions {
+display: flex;
+gap: 8px;
+margin-top: 12px;
+}
+
+.btn-small {
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+letter-spacing: 0.04em;
+padding: 6px 12px;
+border: 1px solid var(–border);
+border-radius: 4px;
+background: var(–bg);
+color: var(–text-muted);
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.btn-small:active { background: var(–border); }
+
+/* フィルター */
+.filter-bar {
+padding: 12px 20px;
+display: flex;
+gap: 8px;
+overflow-x: auto;
+scrollbar-width: none;
+background: var(–surface);
+border-bottom: 1px solid var(–border);
+}
+
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-chip {
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+white-space: nowrap;
+padding: 5px 12px;
+border-radius: 20px;
+border: 1px solid var(–border);
+background: transparent;
+color: var(–text-muted);
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.filter-chip.active {
+background: var(–text);
+color: var(–bg);
+border-color: var(–text);
+}
+
+/* 本リスト */
+.book-list {
+padding: 16px 20px;
+display: flex;
+flex-direction: column;
+gap: 1px;
+}
+
+.empty-state {
+text-align: center;
+padding: 60px 20px;
+color: var(–text-muted);
+font-size: 14px;
+line-height: 2;
+}
+
+.empty-state .big {
+font-size: 32px;
+display: block;
+margin-bottom: 8px;
+}
+
+/* 本カード */
+.book-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 16px;
+cursor: pointer;
+transition: all 0.15s;
+animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(4px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.book-card:active { background: var(–bg); }
+
+.book-card-top {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+gap: 12px;
+}
+
+.book-title {
+font-size: 15px;
+font-weight: 600;
+line-height: 1.5;
+flex: 1;
+}
+
+.book-tags {
+display: flex;
+flex-direction: column;
+gap: 4px;
+flex-shrink: 0;
+}
+
+.tag {
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+padding: 2px 8px;
+border-radius: 3px;
+text-align: center;
+letter-spacing: 0.03em;
+}
+
+.tag-done { background: var(–tag-done); color: #fff; }
+.tag-reading { background: var(–border); color: var(–text-muted); }
+.tag-buy { background: var(–tag-buy); color: #fff; }
+.tag-borrow { background: var(–tag-borrow); color: #fff; }
+
+.book-author {
+font-size: 12px;
+color: var(–text-muted);
+margin-top: 4px;
+}
+
+.book-meta {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-top: 10px;
+}
+
+.book-date {
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+color: var(–text-muted);
+}
+
+.book-review-preview {
+font-size: 12px;
+color: var(–text-muted);
+margin-top: 8px;
+line-height: 1.6;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
+
+/* FAB */
+.fab {
+position: fixed;
+bottom: 24px;
+right: 24px;
+width: 56px;
+height: 56px;
+border-radius: 50%;
+background: var(–text);
+color: var(–bg);
+border: none;
+font-size: 24px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+transition: transform 0.15s;
+z-index: 100;
+}
+
+.fab:active { transform: scale(0.92); }
+
+/* モーダル */
+.modal-overlay {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.4);
+z-index: 200;
+align-items: flex-end;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+background: var(–surface);
+border-radius: 16px 16px 0 0;
+width: 100%;
+max-height: 92vh;
+overflow-y: auto;
+padding: 0 0 40px;
+animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+from { transform: translateY(40px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-handle {
+width: 36px;
+height: 4px;
+background: var(–border);
+border-radius: 2px;
+margin: 12px auto 0;
+}
+
+.modal-header {
+padding: 20px 20px 0;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.modal-title {
+font-size: 16px;
+font-weight: 600;
+letter-spacing: 0.05em;
+}
+
+.modal-close {
+width: 32px;
+height: 32px;
+border: none;
+background: var(–bg);
+border-radius: 50%;
+font-size: 18px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+color: var(–text-muted);
+}
+
+.modal-body {
+padding: 20px;
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.field-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+letter-spacing: 0.06em;
+color: var(–text-muted);
+margin-bottom: 6px;
+display: block;
+}
+
+.field-label span.required {
+color: var(–danger);
+margin-left: 3px;
+}
+
+input[type=“text”],
+input[type=“date”],
+textarea {
+width: 100%;
+font-family: ‘Noto Serif JP’, serif;
+font-size: 14px;
+color: var(–text);
+background: var(–bg);
+border: 1px solid var(–border);
+border-radius: 6px;
+padding: 10px 12px;
+outline: none;
+transition: border-color 0.15s;
+-webkit-appearance: none;
+}
+
+input[type=“text”]:focus,
+input[type=“date”]:focus,
+textarea:focus {
+border-color: var(–text);
+}
+
+textarea {
+resize: none;
+min-height: 100px;
+line-height: 1.7;
+}
+
+.toggle-group {
+display: flex;
+gap: 0;
+border: 1px solid var(–border);
+border-radius: 6px;
+overflow: hidden;
+}
+
+.toggle-btn {
+flex: 1;
+padding: 9px 0;
+border: none;
+background: var(–bg);
+font-family: ‘Noto Serif JP’, serif;
+font-size: 13px;
+color: var(–text-muted);
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.toggle-btn:not(:last-child) {
+border-right: 1px solid var(–border);
+}
+
+.toggle-btn.active {
+background: var(–text);
+color: var(–bg);
+}
+
+.btn-primary {
+width: 100%;
+padding: 14px;
+background: var(–text);
+color: var(–bg);
+border: none;
+border-radius: 8px;
+font-family: ‘Noto Serif JP’, serif;
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+letter-spacing: 0.06em;
+transition: opacity 0.15s;
+}
+
+.btn-primary:active { opacity: 0.8; }
+
+.btn-danger {
+width: 100%;
+padding: 12px;
+background: transparent;
+color: var(–danger);
+border: 1px solid var(–danger);
+border-radius: 8px;
+font-family: ‘Noto Serif JP’, serif;
+font-size: 14px;
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.btn-danger:active { background: var(–danger); color: #fff; }
+
+/* 詳細モーダル */
+.detail-field {
+border-bottom: 1px solid var(–border);
+padding-bottom: 16px;
+}
+
+.detail-field:last-of-type { border-bottom: none; }
+
+.detail-value {
+font-size: 14px;
+line-height: 1.8;
+color: var(–text);
+white-space: pre-wrap;
+}
+
+.detail-tags {
+display: flex;
+gap: 6px;
+flex-wrap: wrap;
+}
+
+/* カウンター */
+.count-display {
+font-family: ‘DM Mono’, monospace;
+font-size: 11px;
+color: var(–text-muted);
+padding: 8px 20px 0;
+letter-spacing: 0.04em;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <h1>読書記録</h1>
+  <div class="subtitle" id="totalCount">0 books</div>
+  <div class="header-actions">
+    <button class="btn-small" onclick="exportJSON()">↓ エクスポート</button>
+    <button class="btn-small" onclick="document.getElementById('importFile').click()">↑ インポート</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-chip active" data-filter="all" onclick="setFilter('all', this)">すべて</button>
+  <button class="filter-chip" data-filter="done" onclick="setFilter('done', this)">読了</button>
+  <button class="filter-chip" data-filter="reading" onclick="setFilter('reading', this)">未読了</button>
+  <button class="filter-chip" data-filter="buy" onclick="setFilter('buy', this)">購入</button>
+  <button class="filter-chip" data-filter="borrow" onclick="setFilter('borrow', this)">借りた</button>
+</div>
+
+<div class="count-display" id="filteredCount"></div>
+<div class="book-list" id="bookList"></div>
+
+<button class="fab" onclick="openAddModal()">＋</button>
+
+<!-- 追加/編集モーダル -->
+
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <span class="modal-title" id="editModalTitle">新しい本</span>
+      <button class="modal-close" onclick="closeEditModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <label class="field-label">タイトル <span class="required">*</span></label>
+        <input type="text" id="inputTitle" placeholder="本のタイトル">
+      </div>
+      <div>
+        <label class="field-label">著者</label>
+        <input type="text" id="inputAuthor" placeholder="著者名">
+      </div>
+      <div>
+        <label class="field-label">読んだ日付</label>
+        <input type="date" id="inputDate">
+      </div>
+      <div>
+        <label class="field-label">読了状況</label>
+        <div class="toggle-group">
+          <button class="toggle-btn active" id="btnDone" onclick="setStatus('done')">読了</button>
+          <button class="toggle-btn" id="btnReading" onclick="setStatus('reading')">未読了</button>
+        </div>
+      </div>
+      <div>
+        <label class="field-label">入手方法</label>
+        <div class="toggle-group">
+          <button class="toggle-btn active" id="btnBuy" onclick="setSource('buy')">購入</button>
+          <button class="toggle-btn" id="btnBorrow" onclick="setSource('borrow')">借りた</button>
+        </div>
+      </div>
+      <div>
+        <label class="field-label">感想・レビュー</label>
+        <textarea id="inputReview" placeholder="読んで感じたこと、メモなど…"></textarea>
+      </div>
+      <button class="btn-primary" id="saveBtn" onclick="saveBook()">保存する</button>
+      <button class="btn-danger" id="deleteBtn" style="display:none" onclick="deleteBook()">この記録を削除する</button>
+    </div>
+  </div>
+</div>
+
+<!-- 詳細モーダル -->
+
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <span class="modal-title">詳細</span>
+      <button class="modal-close" onclick="closeDetailModal()">×</button>
+    </div>
+    <div class="modal-body" id="detailBody"></div>
+  </div>
+</div>
+
+<script>
+  let books = JSON.parse(localStorage.getItem('books_log') || '[]');
+  let currentFilter = 'all';
+  let editingId = null;
+  let currentStatus = 'done';
+  let currentSource = 'buy';
+
+  function save() {
+    localStorage.setItem('books_log', JSON.stringify(books));
+  }
+
+  function getFiltered() {
+    if (currentFilter === 'all') return books;
+    if (currentFilter === 'done') return books.filter(b => b.status === 'done');
+    if (currentFilter === 'reading') return books.filter(b => b.status === 'reading');
+    if (currentFilter === 'buy') return books.filter(b => b.source === 'buy');
+    if (currentFilter === 'borrow') return books.filter(b => b.source === 'borrow');
+    return books;
+  }
+
+  function render() {
+    const list = document.getElementById('bookList');
+    const filtered = getFiltered();
+    const total = books.length;
+
+    document.getElementById('totalCount').textContent = total + ' books';
+
+    if (filtered.length === 0) {
+      list.innerHTML = `<div class="empty-state">
+        <span class="big">📖</span>
+        ${total === 0 ? '＋ボタンで最初の一冊を記録しよう' : 'この条件の本はまだない'}
+      </div>`;
+      document.getElementById('filteredCount').textContent = '';
+      return;
+    }
+
+    if (currentFilter !== 'all') {
+      document.getElementById('filteredCount').textContent = filtered.length + ' 件';
+    } else {
+      document.getElementById('filteredCount').textContent = '';
+    }
+
+    const sorted = [...filtered].sort((a, b) => {
+      if (!a.date && !b.date) return 0;
+      if (!a.date) return 1;
+      if (!b.date) return -1;
+      return b.date.localeCompare(a.date);
+    });
+
+    list.innerHTML = sorted.map(b => `
+      <div class="book-card" onclick="openDetail('${b.id}')">
+        <div class="book-card-top">
+          <div style="flex:1">
+            <div class="book-title">${esc(b.title)}</div>
+            ${b.author ? `<div class="book-author">${esc(b.author)}</div>` : ''}
+          </div>
+          <div class="book-tags">
+            <span class="tag ${b.status === 'done' ? 'tag-done' : 'tag-reading'}">${b.status === 'done' ? '読了' : '未読了'}</span>
+            <span class="tag ${b.source === 'buy' ? 'tag-buy' : 'tag-borrow'}">${b.source === 'buy' ? '購入' : '借りた'}</span>
+          </div>
+        </div>
+        ${b.date ? `<div class="book-meta"><span class="book-date">${b.date}</span></div>` : ''}
+        ${b.review ? `<div class="book-review-preview">${esc(b.review)}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function setFilter(filter, el) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    render();
+  }
+
+  // 追加モーダル
+  function openAddModal() {
+    editingId = null;
+    currentStatus = 'done';
+    currentSource = 'buy';
+    document.getElementById('editModalTitle').textContent = '新しい本';
+    document.getElementById('inputTitle').value = '';
+    document.getElementById('inputAuthor').value = '';
+    document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('inputReview').value = '';
+    document.getElementById('deleteBtn').style.display = 'none';
+    updateStatusUI();
+    updateSourceUI();
+    document.getElementById('editModal').classList.add('open');
+    setTimeout(() => document.getElementById('inputTitle').focus(), 300);
+  }
+
+  function openEditModal(id) {
+    const b = books.find(x => x.id === id);
+    if (!b) return;
+    editingId = id;
+    currentStatus = b.status || 'done';
+    currentSource = b.source || 'buy';
+    document.getElementById('editModalTitle').textContent = '編集';
+    document.getElementById('inputTitle').value = b.title;
+    document.getElementById('inputAuthor').value = b.author || '';
+    document.getElementById('inputDate').value = b.date || '';
+    document.getElementById('inputReview').value = b.review || '';
+    document.getElementById('deleteBtn').style.display = 'block';
+    updateStatusUI();
+    updateSourceUI();
+    closeDetailModal();
+    document.getElementById('editModal').classList.add('open');
+  }
+
+  function closeEditModal() {
+    document.getElementById('editModal').classList.remove('open');
+  }
+
+  function setStatus(s) {
+    currentStatus = s;
+    updateStatusUI();
+  }
+
+  function setSource(s) {
+    currentSource = s;
+    updateSourceUI();
+  }
+
+  function updateStatusUI() {
+    document.getElementById('btnDone').classList.toggle('active', currentStatus === 'done');
+    document.getElementById('btnReading').classList.toggle('active', currentStatus === 'reading');
+  }
+
+  function updateSourceUI() {
+    document.getElementById('btnBuy').classList.toggle('active', currentSource === 'buy');
+    document.getElementById('btnBorrow').classList.toggle('active', currentSource === 'borrow');
+  }
+
+  function saveBook() {
+    const title = document.getElementById('inputTitle').value.trim();
+    if (!title) {
+      document.getElementById('inputTitle').focus();
+      document.getElementById('inputTitle').style.borderColor = 'var(--danger)';
+      setTimeout(() => document.getElementById('inputTitle').style.borderColor = '', 1500);
+      return;
+    }
+    const book = {
+      id: editingId || Date.now().toString(),
+      title,
+      author: document.getElementById('inputAuthor').value.trim(),
+      date: document.getElementById('inputDate').value,
+      status: currentStatus,
+      source: currentSource,
+      review: document.getElementById('inputReview').value.trim(),
+      updatedAt: new Date().toISOString()
+    };
+    if (editingId) {
+      const idx = books.findIndex(b => b.id === editingId);
+      if (idx !== -1) books[idx] = book;
+    } else {
+      books.unshift(book);
+    }
+    save();
+    render();
+    closeEditModal();
+  }
+
+  function deleteBook() {
+    if (!editingId) return;
+    if (!confirm('この記録を削除する？')) return;
+    books = books.filter(b => b.id !== editingId);
+    save();
+    render();
+    closeEditModal();
+  }
+
+  // 詳細モーダル
+  function openDetail(id) {
+    const b = books.find(x => x.id === id);
+    if (!b) return;
+    const body = document.getElementById('detailBody');
+    body.innerHTML = `
+      <div>
+        <h2 style="font-size:18px;font-weight:600;line-height:1.6">${esc(b.title)}</h2>
+        ${b.author ? `<p style="font-size:13px;color:var(--text-muted);margin-top:4px">${esc(b.author)}</p>` : ''}
+      </div>
+      <div class="detail-tags">
+        <span class="tag ${b.status === 'done' ? 'tag-done' : 'tag-reading'}">${b.status === 'done' ? '読了' : '未読了'}</span>
+        <span class="tag ${b.source === 'buy' ? 'tag-buy' : 'tag-borrow'}">${b.source === 'buy' ? '購入' : '借りた'}</span>
+      </div>
+      ${b.date ? `<div class="detail-field">
+        <span class="field-label">読んだ日付</span>
+        <div class="detail-value">${b.date}</div>
+      </div>` : ''}
+      ${b.review ? `<div class="detail-field">
+        <span class="field-label">感想・レビュー</span>
+        <div class="detail-value">${esc(b.review)}</div>
+      </div>` : ''}
+      <button class="btn-small" style="width:100%;padding:10px;text-align:center" onclick="openEditModal('${b.id}')">編集する</button>
+    `;
+    document.getElementById('detailModal').classList.add('open');
+  }
+
+  function closeDetailModal() {
+    document.getElementById('detailModal').classList.remove('open');
+  }
+
+  // エクスポート
+  function exportJSON() {
+    if (books.length === 0) { alert('記録がまだない'); return; }
+    const data = JSON.stringify(books, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'books_' + new Date().toISOString().split('T')[0] + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // インポート
+  function importJSON(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!Array.isArray(data)) throw new Error();
+        const confirmed = confirm(`${data.length}件のデータをインポートする？\n既存のデータとマージされる。`);
+        if (!confirmed) return;
+        const existingIds = new Set(books.map(b => b.id));
+        const newBooks = data.filter(b => !existingIds.has(b.id));
+        books = [...books, ...newBooks];
+        save();
+        render();
+        alert(`${newBooks.length}件追加した`);
+      } catch {
+        alert('読み込みに失敗した。正しいJSONファイルか確認して');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  }
+
+  // モーダル外タップで閉じる
+  document.getElementById('editModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditModal();
+  });
+  document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDetailModal();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
