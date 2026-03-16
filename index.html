@@ -29,6 +29,14 @@ button {
 appearance: none;
 cursor: pointer;
 color: inherit;
+background: none;
+border: none;
+font-family: inherit;
+}
+
+input, textarea {
+-webkit-appearance: none;
+appearance: none;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -81,7 +89,6 @@ border: 1px solid var(–border);
 border-radius: 4px;
 background: var(–bg);
 color: var(–text-muted);
-cursor: pointer;
 transition: all 0.15s;
 }
 
@@ -109,7 +116,6 @@ border-radius: 20px;
 border: 1px solid var(–border);
 background: transparent;
 color: var(–text-muted);
-cursor: pointer;
 transition: all 0.15s;
 }
 
@@ -234,9 +240,7 @@ height: 56px;
 border-radius: 50%;
 background: var(–text);
 color: var(–bg);
-border: none;
 font-size: 24px;
-cursor: pointer;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -298,11 +302,9 @@ letter-spacing: 0.05em;
 .modal-close {
 width: 32px;
 height: 32px;
-border: none;
 background: var(–bg);
 border-radius: 50%;
 font-size: 18px;
-cursor: pointer;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -343,7 +345,6 @@ border-radius: 6px;
 padding: 10px 12px;
 outline: none;
 transition: border-color 0.15s;
--webkit-appearance: none;
 }
 
 input[type=“text”]:focus,
@@ -360,7 +361,6 @@ line-height: 1.7;
 
 .toggle-group {
 display: flex;
-gap: 0;
 border: 1px solid var(–border);
 border-radius: 6px;
 overflow: hidden;
@@ -369,13 +369,11 @@ overflow: hidden;
 .toggle-btn {
 flex: 1;
 padding: 9px 0;
-border: none;
-background: var(–bg);
 font-family: ‘Noto Serif JP’, serif;
 font-size: 13px;
 color: var(–text-muted);
-cursor: pointer;
 transition: all 0.15s;
+text-align: center;
 }
 
 .toggle-btn:not(:last-child) {
@@ -392,14 +390,12 @@ width: 100%;
 padding: 14px;
 background: var(–text);
 color: var(–bg);
-border: none;
-border-radius: 8px;
 font-family: ‘Noto Serif JP’, serif;
 font-size: 15px;
 font-weight: 600;
-cursor: pointer;
 letter-spacing: 0.06em;
 transition: opacity 0.15s;
+border-radius: 8px;
 }
 
 .btn-primary:active { opacity: 0.8; }
@@ -413,7 +409,6 @@ border: 1px solid var(–danger);
 border-radius: 8px;
 font-family: ‘Noto Serif JP’, serif;
 font-size: 14px;
-cursor: pointer;
 transition: all 0.15s;
 }
 
@@ -440,7 +435,6 @@ gap: 6px;
 flex-wrap: wrap;
 }
 
-/* カウンター */
 .count-display {
 font-family: ‘DM Mono’, monospace;
 font-size: 11px;
@@ -464,11 +458,11 @@ letter-spacing: 0.04em;
 </header>
 
 <div class="filter-bar">
-  <button class="filter-chip active" data-filter="all" onclick="setFilter('all', this)">すべて</button>
-  <button class="filter-chip" data-filter="done" onclick="setFilter('done', this)">読了</button>
-  <button class="filter-chip" data-filter="reading" onclick="setFilter('reading', this)">未読了</button>
-  <button class="filter-chip" data-filter="buy" onclick="setFilter('buy', this)">購入</button>
-  <button class="filter-chip" data-filter="borrow" onclick="setFilter('borrow', this)">借りた</button>
+  <button class="filter-chip active" onclick="setFilter('all', this)">すべて</button>
+  <button class="filter-chip" onclick="setFilter('done', this)">読了</button>
+  <button class="filter-chip" onclick="setFilter('reading', this)">未読了</button>
+  <button class="filter-chip" onclick="setFilter('buy', this)">購入</button>
+  <button class="filter-chip" onclick="setFilter('borrow', this)">借りた</button>
 </div>
 
 <div class="count-display" id="filteredCount"></div>
@@ -516,7 +510,7 @@ letter-spacing: 0.04em;
         <label class="field-label">感想・レビュー</label>
         <textarea id="inputReview" placeholder="読んで感じたこと、メモなど…"></textarea>
       </div>
-      <button class="btn-primary" id="saveBtn" onclick="saveBook()">保存する</button>
+      <button class="btn-primary" onclick="saveBook()">保存する</button>
       <button class="btn-danger" id="deleteBtn" style="display:none" onclick="deleteBook()">この記録を削除する</button>
     </div>
   </div>
@@ -613,7 +607,6 @@ letter-spacing: 0.04em;
     render();
   }
 
-  // 追加モーダル
   function openAddModal() {
     editingId = null;
     currentStatus = 'done';
@@ -652,15 +645,8 @@ letter-spacing: 0.04em;
     document.getElementById('editModal').classList.remove('open');
   }
 
-  function setStatus(s) {
-    currentStatus = s;
-    updateStatusUI();
-  }
-
-  function setSource(s) {
-    currentSource = s;
-    updateSourceUI();
-  }
+  function setStatus(s) { currentStatus = s; updateStatusUI(); }
+  function setSource(s) { currentSource = s; updateSourceUI(); }
 
   function updateStatusUI() {
     document.getElementById('btnDone').classList.toggle('active', currentStatus === 'done');
@@ -675,9 +661,10 @@ letter-spacing: 0.04em;
   function saveBook() {
     const title = document.getElementById('inputTitle').value.trim();
     if (!title) {
-      document.getElementById('inputTitle').focus();
-      document.getElementById('inputTitle').style.borderColor = 'var(--danger)';
-      setTimeout(() => document.getElementById('inputTitle').style.borderColor = '', 1500);
+      const el = document.getElementById('inputTitle');
+      el.focus();
+      el.style.borderColor = 'var(--danger)';
+      setTimeout(() => el.style.borderColor = '', 1500);
       return;
     }
     const book = {
@@ -710,12 +697,10 @@ letter-spacing: 0.04em;
     closeEditModal();
   }
 
-  // 詳細モーダル
   function openDetail(id) {
     const b = books.find(x => x.id === id);
     if (!b) return;
-    const body = document.getElementById('detailBody');
-    body.innerHTML = `
+    document.getElementById('detailBody').innerHTML = `
       <div>
         <h2 style="font-size:18px;font-weight:600;line-height:1.6">${esc(b.title)}</h2>
         ${b.author ? `<p style="font-size:13px;color:var(--text-muted);margin-top:4px">${esc(b.author)}</p>` : ''}
@@ -741,11 +726,9 @@ letter-spacing: 0.04em;
     document.getElementById('detailModal').classList.remove('open');
   }
 
-  // エクスポート
   function exportJSON() {
     if (books.length === 0) { alert('記録がまだない'); return; }
-    const data = JSON.stringify(books, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(books, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -754,7 +737,6 @@ letter-spacing: 0.04em;
     URL.revokeObjectURL(url);
   }
 
-  // インポート
   function importJSON(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -763,14 +745,13 @@ letter-spacing: 0.04em;
       try {
         const data = JSON.parse(ev.target.result);
         if (!Array.isArray(data)) throw new Error();
-        const confirmed = confirm(`${data.length}件のデータをインポートする？\n既存のデータとマージされる。`);
-        if (!confirmed) return;
+        if (!confirm(data.length + '件のデータをインポートする？\n既存のデータとマージされる。')) return;
         const existingIds = new Set(books.map(b => b.id));
         const newBooks = data.filter(b => !existingIds.has(b.id));
         books = [...books, ...newBooks];
         save();
         render();
-        alert(`${newBooks.length}件追加した`);
+        alert(newBooks.length + '件追加した');
       } catch {
         alert('読み込みに失敗した。正しいJSONファイルか確認して');
       }
@@ -779,7 +760,6 @@ letter-spacing: 0.04em;
     e.target.value = '';
   }
 
-  // モーダル外タップで閉じる
   document.getElementById('editModal').addEventListener('click', function(e) {
     if (e.target === this) closeEditModal();
   });
