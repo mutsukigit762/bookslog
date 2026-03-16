@@ -255,10 +255,14 @@ z-index: 100;
 .modal-overlay {
 display: none;
 position: fixed;
-inset: 0;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
 background: rgba(0,0,0,0.4);
 z-index: 200;
 align-items: flex-end;
+-webkit-overflow-scrolling: touch;
 }
 
 .modal-overlay.open { display: flex; }
@@ -267,10 +271,14 @@ align-items: flex-end;
 background: var(–surface);
 border-radius: 16px 16px 0 0;
 width: 100%;
-max-height: 92vh;
+max-height: 90vh;
+max-height: 90dvh;
 overflow-y: auto;
-padding: 0 0 40px;
+-webkit-overflow-scrolling: touch;
+padding: 0 0 60px;
 animation: slideUp 0.25s ease;
+position: relative;
+z-index: 201;
 }
 
 @keyframes slideUp {
@@ -766,6 +774,29 @@ letter-spacing: 0.04em;
   document.getElementById('detailModal').addEventListener('click', function(e) {
     if (e.target === this) closeDetailModal();
   });
+
+  // Safariでモーダル開閉時にbodyスクロール制御
+  function lockBody() {
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+  }
+  function unlockBody() {
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+  }
+
+  const origOpenAdd = openAddModal;
+  openAddModal = function() { origOpenAdd(); lockBody(); };
+  const origOpenEdit = openEditModal;
+  openEditModal = function(id) { origOpenEdit(id); lockBody(); };
+  const origCloseEdit = closeEditModal;
+  closeEditModal = function() { origCloseEdit(); unlockBody(); };
+  const origOpenDetail = openDetail;
+  openDetail = function(id) { origOpenDetail(id); lockBody(); };
+  const origCloseDetail = closeDetailModal;
+  closeDetailModal = function() { origCloseDetail(); unlockBody(); };
 
   render();
 </script>
