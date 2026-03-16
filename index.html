@@ -28,6 +28,7 @@ background: #f5f2ee;
 color: #2a2520;
 min-height: 100vh;
 padding-bottom: 100px;
+overscroll-behavior: none;
 }
 
 header {
@@ -213,7 +214,8 @@ max-height: 82dvh;
 max-height: 82vh;
 overflow-y: scroll;
 -webkit-overflow-scrolling: touch;
-overscroll-behavior: contain;
+overscroll-behavior-x: none;
+overscroll-behavior-y: contain;
 padding: 0 0 48px;
 animation: slideUp 0.25s ease;
 position: relative;
