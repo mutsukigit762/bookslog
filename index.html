@@ -8,19 +8,6 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap');
 
-:root {
-–bg: #f5f2ee;
-–surface: #fdfbf8;
-–border: #ddd8d0;
-–text: #2a2520;
-–text-muted: #9e9890;
-–tag-done: #2a2520;
-–tag-reading: #9e9890;
-–tag-buy: #5c4a3a;
-–tag-borrow: #7a8c7a;
-–danger: #c0392b;
-}
-
 - { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 button {
@@ -37,27 +24,27 @@ input, textarea { -webkit-appearance: none; appearance: none; }
 
 body {
 font-family: ‘Noto Serif JP’, serif;
-background: var(–bg);
-color: var(–text);
+background: #f5f2ee;
+color: #2a2520;
 min-height: 100vh;
 padding-bottom: 100px;
 }
 
 header {
-background: var(–surface);
-border-bottom: 1px solid var(–border);
+background: #fdfbf8;
+border-bottom: 1px solid #ddd8d0;
 padding: 20px 20px 16px;
 position: sticky;
 top: 0;
 z-index: 10;
 }
 
-header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.08em; }
+header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.08em; color: #2a2520; }
 
 .header-sub {
 font-family: ‘DM Mono’, monospace;
 font-size: 11px;
-color: var(–text-muted);
+color: #9e9890;
 margin-top: 2px;
 letter-spacing: 0.05em;
 }
@@ -69,14 +56,14 @@ font-family: ‘DM Mono’, monospace;
 font-size: 11px;
 letter-spacing: 0.04em;
 padding: 6px 12px;
-border: 1px solid var(–border);
+border: 1px solid #ddd8d0;
 border-radius: 4px;
-background: var(–bg);
-color: var(–text-muted);
+background: #f5f2ee;
+color: #9e9890;
 transition: background 0.15s;
 }
 
-.btn-small:active { background: var(–border); }
+.btn-small:active { background: #ddd8d0; }
 
 .filter-bar {
 padding: 12px 20px;
@@ -84,8 +71,8 @@ display: flex;
 gap: 8px;
 overflow-x: auto;
 scrollbar-width: none;
-background: var(–surface);
-border-bottom: 1px solid var(–border);
+background: #fdfbf8;
+border-bottom: 1px solid #ddd8d0;
 }
 
 .filter-bar::-webkit-scrollbar { display: none; }
@@ -96,16 +83,16 @@ font-size: 11px;
 white-space: nowrap;
 padding: 5px 12px;
 border-radius: 20px;
-border: 1px solid var(–border);
+border: 1px solid #ddd8d0;
 background: transparent;
-color: var(–text-muted);
+color: #9e9890;
 transition: all 0.15s;
 }
 
 .filter-chip.active {
-background: var(–text);
-color: var(–bg);
-border-color: var(–text);
+background: #2a2520;
+color: #fdfbf8;
+border-color: #2a2520;
 }
 
 .book-list {
@@ -118,7 +105,7 @@ gap: 8px;
 .empty-state {
 text-align: center;
 padding: 60px 20px;
-color: var(–text-muted);
+color: #9e9890;
 font-size: 14px;
 line-height: 2;
 }
@@ -126,8 +113,8 @@ line-height: 2;
 .empty-state .big { font-size: 32px; display: block; margin-bottom: 8px; }
 
 .book-card {
-background: var(–surface);
-border: 1px solid var(–border);
+background: #fdfbf8;
+border: 1px solid #ddd8d0;
 border-radius: 8px;
 padding: 16px;
 cursor: pointer;
@@ -140,7 +127,7 @@ from { opacity: 0; transform: translateY(4px); }
 to { opacity: 1; transform: translateY(0); }
 }
 
-.book-card:active { background: var(–bg); }
+.book-card:active { background: #f5f2ee; }
 
 .book-card-top {
 display: flex;
@@ -149,7 +136,7 @@ align-items: flex-start;
 gap: 12px;
 }
 
-.book-title { font-size: 15px; font-weight: 600; line-height: 1.5; flex: 1; }
+.book-title { font-size: 15px; font-weight: 600; line-height: 1.5; flex: 1; color: #2a2520; }
 
 .book-tags { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
 
@@ -162,23 +149,23 @@ text-align: center;
 letter-spacing: 0.03em;
 }
 
-.tag-done { background: var(–tag-done); color: #fff; }
-.tag-reading { background: var(–border); color: var(–text-muted); }
-.tag-buy { background: var(–tag-buy); color: #fff; }
-.tag-borrow { background: var(–tag-borrow); color: #fff; }
+.tag-done { background: #2a2520; color: #fff; }
+.tag-reading { background: #ddd8d0; color: #9e9890; }
+.tag-buy { background: #5c4a3a; color: #fff; }
+.tag-borrow { background: #7a8c7a; color: #fff; }
 
-.book-author { font-size: 12px; color: var(–text-muted); margin-top: 4px; }
+.book-author { font-size: 12px; color: #9e9890; margin-top: 4px; }
 
 .book-date {
 font-family: ‘DM Mono’, monospace;
 font-size: 11px;
-color: var(–text-muted);
+color: #9e9890;
 margin-top: 10px;
 }
 
 .book-review-preview {
 font-size: 12px;
-color: var(–text-muted);
+color: #9e9890;
 margin-top: 8px;
 line-height: 1.6;
 display: -webkit-box;
@@ -194,8 +181,8 @@ right: 24px;
 width: 56px;
 height: 56px;
 border-radius: 50%;
-background: var(–text);
-color: var(–bg);
+background: #2a2520;
+color: #fdfbf8;
 font-size: 24px;
 display: flex;
 align-items: center;
@@ -207,7 +194,6 @@ z-index: 10;
 
 .fab:active { transform: scale(0.92); }
 
-/* モーダル */
 .modal-overlay {
 display: none;
 position: fixed;
@@ -215,8 +201,6 @@ top: 0; left: 0; right: 0; bottom: 0;
 background: rgba(0,0,0,0.4);
 z-index: 9999;
 align-items: flex-end;
--webkit-transform: translateZ(0);
-transform: translateZ(0);
 }
 
 .modal-overlay.open { display: flex; }
@@ -231,8 +215,6 @@ overflow-y: auto;
 -webkit-overflow-scrolling: touch;
 padding: 0 0 48px;
 animation: slideUp 0.25s ease;
--webkit-transform: translateZ(0);
-transform: translateZ(0);
 position: relative;
 z-index: 10000;
 }
@@ -244,7 +226,7 @@ to { transform: translateY(0); opacity: 1; }
 
 .modal-handle {
 width: 36px; height: 4px;
-background: var(–border);
+background: #ddd8d0;
 border-radius: 2px;
 margin: 12px auto 0;
 }
@@ -256,17 +238,17 @@ justify-content: space-between;
 align-items: center;
 }
 
-.modal-title { font-size: 16px; font-weight: 600; letter-spacing: 0.05em; }
+.modal-title { font-size: 16px; font-weight: 600; letter-spacing: 0.05em; color: #2a2520; }
 
 .modal-close {
 width: 32px; height: 32px;
-background: var(–bg);
+background: #f5f2ee;
 border-radius: 50%;
 font-size: 18px;
 display: flex;
 align-items: center;
 justify-content: center;
-color: var(–text-muted);
+color: #9e9890;
 }
 
 .modal-body {
@@ -280,12 +262,12 @@ gap: 16px;
 font-family: ‘DM Mono’, monospace;
 font-size: 11px;
 letter-spacing: 0.06em;
-color: var(–text-muted);
+color: #9e9890;
 margin-bottom: 6px;
 display: block;
 }
 
-.required-mark { color: var(–danger); margin-left: 3px; }
+.required-mark { color: #c0392b; margin-left: 3px; }
 
 input[type=“text”],
 input[type=“date”],
@@ -293,9 +275,9 @@ textarea {
 width: 100%;
 font-family: ‘Noto Serif JP’, serif;
 font-size: 14px;
-color: var(–text);
-background: var(–bg);
-border: 1px solid var(–border);
+color: #2a2520;
+background: #f5f2ee;
+border: 1px solid #ddd8d0;
 border-radius: 6px;
 padding: 10px 12px;
 outline: none;
@@ -304,13 +286,13 @@ transition: border-color 0.15s;
 
 input[type=“text”]:focus,
 input[type=“date”]:focus,
-textarea:focus { border-color: var(–text); }
+textarea:focus { border-color: #2a2520; }
 
 textarea { resize: none; min-height: 100px; line-height: 1.7; }
 
 .toggle-group {
 display: flex;
-border: 1px solid var(–border);
+border: 1px solid #ddd8d0;
 border-radius: 6px;
 overflow: hidden;
 }
@@ -320,19 +302,20 @@ flex: 1;
 padding: 9px 0;
 font-family: ‘Noto Serif JP’, serif;
 font-size: 13px;
-color: var(–text-muted);
+color: #9e9890;
+background: transparent;
 transition: all 0.15s;
 text-align: center;
 }
 
-.toggle-btn:not(:last-child) { border-right: 1px solid var(–border); }
-.toggle-btn.active { background: var(–text); color: var(–bg); }
+.toggle-btn:not(:last-child) { border-right: 1px solid #ddd8d0; }
+.toggle-btn.active { background: #2a2520; color: #fdfbf8; }
 
 .btn-primary {
 width: 100%;
 padding: 14px;
-background: var(–text);
-color: var(–bg);
+background: #2a2520;
+color: #fdfbf8;
 font-family: ‘Noto Serif JP’, serif;
 font-size: 15px;
 font-weight: 600;
@@ -347,19 +330,19 @@ transition: opacity 0.15s;
 width: 100%;
 padding: 12px;
 background: transparent;
-color: var(–danger);
-border: 1px solid var(–danger);
+color: #c0392b;
+border: 1px solid #c0392b;
 border-radius: 8px;
 font-family: ‘Noto Serif JP’, serif;
 font-size: 14px;
 transition: all 0.15s;
 }
 
-.btn-danger:active { background: var(–danger); color: #fff; }
+.btn-danger:active { background: #c0392b; color: #fff; }
 
-.detail-field { border-bottom: 1px solid var(–border); padding-bottom: 16px; }
+.detail-field { border-bottom: 1px solid #ddd8d0; padding-bottom: 16px; }
 .detail-field:last-of-type { border-bottom: none; }
-.detail-value { font-size: 14px; line-height: 1.8; white-space: pre-wrap; margin-top: 4px; }
+.detail-value { font-size: 14px; line-height: 1.8; white-space: pre-wrap; margin-top: 4px; color: #2a2520; }
 .detail-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 </style>
 
@@ -387,8 +370,6 @@ transition: all 0.15s;
 <div class="book-list" id="bookList"></div>
 
 <button class="fab" onclick="openAddModal()">＋</button>
-
-<!-- 追加/編集モーダル -->
 
 <div class="modal-overlay" id="editModal" onclick="handleOverlayClick(event,'editModal')">
   <div class="modal">
@@ -434,8 +415,6 @@ transition: all 0.15s;
   </div>
 </div>
 
-<!-- 詳細モーダル -->
-
 <div class="modal-overlay" id="detailModal" onclick="handleOverlayClick(event,'detailModal')">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -464,17 +443,16 @@ transition: all 0.15s;
   }
 
   function openModal(id) {
-    document.getElementById(id).style.display = 'flex';
-    // 次フレームでopacity animationのためにclassを付与
-    requestAnimationFrame(() => {
-      document.getElementById(id).classList.add('open');
-    });
+    const el = document.getElementById(id);
+    el.style.display = 'flex';
+    requestAnimationFrame(() => el.classList.add('open'));
     document.body.style.overflow = 'hidden';
   }
 
   function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-    document.getElementById(id).style.display = '';
+    const el = document.getElementById(id);
+    el.classList.remove('open');
+    el.style.display = 'none';
     document.body.style.overflow = '';
   }
 
@@ -589,7 +567,7 @@ transition: all 0.15s;
     if (!title) {
       const el = document.getElementById('inputTitle');
       el.focus();
-      el.style.borderColor = 'var(--danger)';
+      el.style.borderColor = '#c0392b';
       setTimeout(() => el.style.borderColor = '', 1500);
       return;
     }
@@ -628,8 +606,8 @@ transition: all 0.15s;
     if (!b) return;
     document.getElementById('detailBody').innerHTML = `
       <div>
-        <h2 style="font-size:18px;font-weight:600;line-height:1.6">${esc(b.title)}</h2>
-        ${b.author ? `<p style="font-size:13px;color:var(--text-muted);margin-top:4px">${esc(b.author)}</p>` : ''}
+        <h2 style="font-size:18px;font-weight:600;line-height:1.6;color:#2a2520">${esc(b.title)}</h2>
+        ${b.author ? `<p style="font-size:13px;color:#9e9890;margin-top:4px">${esc(b.author)}</p>` : ''}
       </div>
       <div class="detail-tags">
         <span class="tag ${b.status==='done'?'tag-done':'tag-reading'}">${b.status==='done'?'読了':'未読了'}</span>
@@ -643,7 +621,7 @@ transition: all 0.15s;
         <span class="field-label">感想・レビュー</span>
         <div class="detail-value">${esc(b.review)}</div>
       </div>` : ''}
-      <button class="btn-small" style="width:100%;padding:10px;text-align:center" onclick="openEditModal('${b.id}')">編集する</button>
+      <button class="btn-small" style="width:100%;padding:10px;text-align:center;color:#2a2520" onclick="openEditModal('${b.id}')">編集する</button>
     `;
     openModal('detailModal');
   }
