@@ -3,7 +3,7 @@
 <html lang="ja" style="overscroll-behavior:none;overflow-x:hidden;">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="読書記録">
@@ -264,6 +264,8 @@ padding: 20px;
 display: flex;
 flex-direction: column;
 gap: 16px;
+width: 100%;
+box-sizing: border-box;
 }
 
 .field-label {
@@ -281,6 +283,7 @@ input[type=“text”],
 input[type=“date”],
 textarea {
 width: 100%;
+max-width: 100%;
 font-family: ‘Noto Serif JP’, serif;
 font-size: 14px;
 color: #2a2520;
@@ -290,6 +293,7 @@ border-radius: 6px;
 padding: 10px 12px;
 outline: none;
 transition: border-color 0.15s;
+display: block;
 }
 
 input[type=“text”]:focus,
