@@ -279,11 +279,15 @@ display: block;
 
 .required-mark { color: #c0392b; margin-left: 3px; }
 
+.modal-body > div {
+width: 100%;
+}
+
 input[type=“text”],
 input[type=“date”],
 textarea {
-width: 100%;
-max-width: 100%;
+width: calc(100% - 26px);
+max-width: calc(100% - 26px);
 font-family: ‘Noto Serif JP’, serif;
 font-size: 14px;
 color: #2a2520;
