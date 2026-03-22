@@ -281,7 +281,12 @@ margin-bottom: 6px;
 display: block;
 }
 
-.required-mark { color: #c0392b; margin-left: 3px; }
+.input-single {
+min-height: unset;
+height: auto;
+line-height: 1.5;
+overflow: hidden;
+}
 
 .modal-body > div {
 width: 100%;
@@ -418,11 +423,11 @@ transition: all 0.15s;
     <div class="modal-body">
       <div>
         <label class="field-label">タイトル <span class="required-mark">*</span></label>
-        <input type="text" id="inputTitle" placeholder="本のタイトル">
+        <textarea id="inputTitle" placeholder="本のタイトル" rows="1" class="input-single"></textarea>
       </div>
       <div>
         <label class="field-label">著者</label>
-        <input type="text" id="inputAuthor" placeholder="著者名">
+        <textarea id="inputAuthor" placeholder="著者名" rows="1" class="input-single"></textarea>
       </div>
       <div>
         <label class="field-label">読んだ日付</label>
