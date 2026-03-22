@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ja" style="overscroll-behavior:none;overflow-x:hidden;">
 <head>
 <meta charset="UTF-8">
@@ -29,7 +28,7 @@ font-family: inherit;
 input, textarea { -webkit-appearance: none; appearance: none; }
 
 body {
-font-family: 'Noto Serif JP', serif; /* 修正② */
+font-family: 'Noto Serif JP', serif;
 background: #f5f2ee;
 color: #2a2520;
 min-height: 100vh;
@@ -224,12 +223,16 @@ max-height: 82dvh;
 overflow-x: hidden;
 overflow-y: scroll;
 -webkit-overflow-scrolling: touch;
-overscroll-behavior-x: none;
 overscroll-behavior-y: contain;
 padding: 0 0 48px;
 animation: slideUp 0.25s ease;
 position: relative;
 z-index: 10000;
+}
+
+@keyframes slideUp {
+from { transform: translateY(40px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-handle {
@@ -246,7 +249,7 @@ justify-content: space-between;
 align-items: center;
 }
 
-.modal-title { font-size: 16px; font-weight: 600; letter-spacing: 0.05em; color: #2a2520; }
+.modal-title { font-size: 16px; font-weight: 600; }
 
 .modal-close {
 width: 32px; height: 32px;
@@ -264,62 +267,70 @@ padding: 20px;
 display: flex;
 flex-direction: column;
 gap: 16px;
-width: 100%;
-box-sizing: border-box;
 }
 
-.field-label {
-font-family: 'DM Mono', monospace;
-font-size: 11px;
-letter-spacing: 0.06em;
-color: #9e9890;
-margin-bottom: 6px;
-display: block;
-}
-
-.required-mark { color: #c0392b; margin-left: 3px; }
-
-.modal-body > div { width: 100%; }
-
-/* 修正② + 修正③ */
+/* 修正②③ */
 input[type="text"],
 input[type="date"],
 textarea {
 width: 100%;
-max-width: 100%;
 font-family: 'Noto Serif JP', serif;
-font-size: 14px;
-color: #2a2520;
 background: #f5f2ee;
 border: 1px solid #ddd8d0;
 border-radius: 6px;
-padding: 10px 12px;
-outline: none;
-transition: border-color 0.15s;
-display: block;
-box-sizing: border-box;
+padding: 10px;
 }
 
-input[type="text"]:focus,
-input[type="date"]:focus,
-textarea:focus { border-color: #2a2520; }
+textarea { min-height: 100px; }
 
-textarea { resize: none; min-height: 100px; line-height: 1.7; }
+.btn-primary {
+width: 100%;
+padding: 14px;
+background: #2a2520;
+color: #fff;
+border-radius: 8px;
+}
 
-/* 以下JSは変更なし except モーダルcloseだけ */
+.btn-danger {
+width: 100%;
+padding: 12px;
+border: 1px solid #c0392b;
+color: #c0392b;
+border-radius: 8px;
+}
 </style>
 </head>
 
 <body>
-<!-- 中身そのままなので省略せず全部入れて使ってOK -->
+
+<header>
+<h1>読書記録</h1>
+<div class="header-sub" id="totalCount">0 books</div>
+</header>
+
+<div class="book-list" id="bookList"></div>
+
+<button class="fab" onclick="openAddModal()">＋</button>
 
 <script>
-function closeModal(id) {
-  const el = document.getElementById(id);
-  el.classList.remove('open');
-  setTimeout(() => el.style.display = 'none', 200);
-  document.body.style.overflow = '';
+let books = JSON.parse(localStorage.getItem('books_log') || '[]');
+
+function save(){localStorage.setItem('books_log',JSON.stringify(books));}
+
+function render(){
+const list=document.getElementById('bookList');
+document.getElementById('totalCount').textContent=books.length+" books";
+list.innerHTML=books.map(b=>`<div class="book-card">${b.title}</div>`).join('');
 }
+
+function openAddModal(){
+const title=prompt("タイトル");
+if(!title)return;
+books.unshift({id:Date.now(),title});
+save();render();
+}
+
+render();
 </script>
 
 </body>
