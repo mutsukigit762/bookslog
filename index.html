@@ -10,7 +10,6 @@
 <link rel="apple-touch-icon" href="icon.png">
 <title>読書記録</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap');
 
 - { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -27,7 +26,7 @@ font-family: inherit;
 input, textarea { -webkit-appearance: none; appearance: none; }
 
 body {
-font-family: ‘Noto Serif JP’, serif;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 background: #f5f2ee;
 color: #2a2520;
 min-height: 100vh;
@@ -48,7 +47,7 @@ z-index: 10;
 header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.08em; color: #2a2520; }
 
 .header-sub {
-font-family: ‘DM Mono’, monospace;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 11px;
 color: #9e9890;
 margin-top: 2px;
@@ -58,7 +57,7 @@ letter-spacing: 0.05em;
 .header-actions { display: flex; gap: 8px; margin-top: 12px; }
 
 .btn-small {
-font-family: ‘DM Mono’, monospace;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 11px;
 letter-spacing: 0.04em;
 padding: 6px 12px;
@@ -84,7 +83,7 @@ border-bottom: 1px solid #ddd8d0;
 .filter-bar::-webkit-scrollbar { display: none; }
 
 .filter-chip {
-font-family: ‘DM Mono’, monospace;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 11px;
 white-space: nowrap;
 padding: 5px 12px;
@@ -147,7 +146,7 @@ gap: 12px;
 .book-tags { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
 
 .tag {
-font-family: ‘DM Mono’, monospace;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 10px;
 padding: 2px 8px;
 border-radius: 3px;
@@ -163,7 +162,7 @@ letter-spacing: 0.03em;
 .book-author { font-size: 12px; color: #9e9890; margin-top: 4px; }
 
 .book-date {
-font-family: ‘DM Mono’, monospace;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 11px;
 color: #9e9890;
 margin-top: 10px;
@@ -273,7 +272,7 @@ box-sizing: border-box;
 }
 
 .field-label {
-font-family: ‘DM Mono’, monospace;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 11px;
 letter-spacing: 0.06em;
 color: #9e9890;
@@ -281,7 +280,30 @@ margin-bottom: 6px;
 display: block;
 }
 
-.input-single {
+.date-picker {
+display: flex;
+gap: 8px;
+}
+
+.date-picker select {
+-webkit-appearance: none;
+appearance: none;
+flex: 1;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
+font-size: 14px;
+color: #2a2520;
+background: #f5f2ee;
+border: 1px solid #ddd8d0;
+border-radius: 6px;
+padding: 10px 8px;
+outline: none;
+text-align: center;
+box-sizing: border-box;
+}
+
+.date-picker select:focus { border-color: #2a2520; }
+
+.required-mark { color: #c0392b; margin-left: 3px; }
 min-height: unset;
 height: auto;
 line-height: 1.5;
@@ -296,7 +318,7 @@ input[type=“date”] {
 -webkit-appearance: none;
 appearance: none;
 width: 100%;
-font-family: ‘Noto Serif JP’, serif;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 14px;
 color: #2a2520;
 background: #f5f2ee;
@@ -315,7 +337,7 @@ textarea {
 -webkit-appearance: none;
 appearance: none;
 width: 100%;
-font-family: ‘Noto Serif JP’, serif;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 14px;
 color: #2a2520;
 background: #f5f2ee;
@@ -342,7 +364,7 @@ overflow: hidden;
 .toggle-btn {
 flex: 1;
 padding: 9px 0;
-font-family: ‘Noto Serif JP’, serif;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 13px;
 color: #9e9890;
 background: transparent;
@@ -358,7 +380,7 @@ width: 100%;
 padding: 14px;
 background: #2a2520;
 color: #fdfbf8;
-font-family: ‘Noto Serif JP’, serif;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 15px;
 font-weight: 600;
 letter-spacing: 0.06em;
@@ -375,7 +397,7 @@ background: transparent;
 color: #c0392b;
 border: 1px solid #c0392b;
 border-radius: 8px;
-font-family: ‘Noto Serif JP’, serif;
+font-family: ‘Hiragino Kaku Gothic ProN’, ‘Hiragino Kaku Gothic Pro’, sans-serif;
 font-size: 14px;
 transition: all 0.15s;
 }
@@ -431,7 +453,11 @@ transition: all 0.15s;
       </div>
       <div>
         <label class="field-label">読んだ日付</label>
-        <input type="date" id="inputDate">
+        <div class="date-picker">
+          <select id="inputYear"></select>
+          <select id="inputMonth"></select>
+          <select id="inputDay"></select>
+        </div>
       </div>
       <div>
         <label class="field-label">読了状況</label>
@@ -563,7 +589,7 @@ transition: all 0.15s;
     document.getElementById('editModalTitle').textContent = '新しい本';
     document.getElementById('inputTitle').value = '';
     document.getElementById('inputAuthor').value = '';
-    document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+    setDateValue('');
     document.getElementById('inputReview').value = '';
     document.getElementById('deleteBtn').style.display = 'none';
     updateStatusUI();
@@ -580,7 +606,7 @@ transition: all 0.15s;
     document.getElementById('editModalTitle').textContent = '編集';
     document.getElementById('inputTitle').value = b.title;
     document.getElementById('inputAuthor').value = b.author || '';
-    document.getElementById('inputDate').value = b.date || '';
+    setDateValue(b.date || '');
     document.getElementById('inputReview').value = b.review || '';
     document.getElementById('deleteBtn').style.display = 'block';
     updateStatusUI();
@@ -617,7 +643,7 @@ transition: all 0.15s;
       id: editingId || Date.now().toString(),
       title,
       author: document.getElementById('inputAuthor').value.trim().replace(/\n/g, ''),
-      date: document.getElementById('inputDate').value,
+      date: getDateValue(),
       status: currentStatus,
       source: currentSource,
       review: document.getElementById('inputReview').value.trim(),
@@ -704,7 +730,76 @@ transition: all 0.15s;
     e.target.value = '';
   }
 
+  // 日付ピッカー初期化
+  function initDatePicker() {
+    const now = new Date();
+    const yearSel = document.getElementById('inputYear');
+    const monthSel = document.getElementById('inputMonth');
+    const daySel = document.getElementById('inputDay');
+
+    yearSel.innerHTML = '';
+    for (let y = now.getFullYear(); y >= 1900; y--) {
+      const o = document.createElement('option');
+      o.value = y;
+      o.textContent = y + '年';
+      yearSel.appendChild(o);
+    }
+
+    monthSel.innerHTML = '';
+    for (let m = 1; m <= 12; m++) {
+      const o = document.createElement('option');
+      o.value = String(m).padStart(2, '0');
+      o.textContent = m + '月';
+      monthSel.appendChild(o);
+    }
+
+    updateDays();
+    yearSel.addEventListener('change', updateDays);
+    monthSel.addEventListener('change', updateDays);
+  }
+
+  function updateDays() {
+    const y = parseInt(document.getElementById('inputYear').value);
+    const m = parseInt(document.getElementById('inputMonth').value);
+    const daySel = document.getElementById('inputDay');
+    const prevDay = daySel.value;
+    const daysInMonth = new Date(y, m, 0).getDate();
+    daySel.innerHTML = '';
+    for (let d = 1; d <= daysInMonth; d++) {
+      const o = document.createElement('option');
+      o.value = String(d).padStart(2, '0');
+      o.textContent = d + '日';
+      daySel.appendChild(o);
+    }
+    if (prevDay && parseInt(prevDay) <= daysInMonth) daySel.value = prevDay;
+  }
+
+  function getDateValue() {
+    const y = document.getElementById('inputYear').value;
+    const m = document.getElementById('inputMonth').value;
+    const d = document.getElementById('inputDay').value;
+    return y + '-' + m + '-' + d;
+  }
+
+  function setDateValue(dateStr) {
+    const now = new Date();
+    let y = String(now.getFullYear());
+    let m = String(now.getMonth() + 1).padStart(2, '0');
+    let d = String(now.getDate()).padStart(2, '0');
+    if (dateStr) {
+      const parts = dateStr.split('-');
+      if (parts.length === 3) { y = parts[0]; m = parts[1]; d = parts[2]; }
+    }
+    document.getElementById('inputYear').value = y;
+    document.getElementById('inputMonth').value = m;
+    updateDays();
+    document.getElementById('inputDay').value = d;
+  }
+
   render();
+
+  initDatePicker();
+  setDateValue('');
 
   // タイトル・著者のtextareaで改行を防ぐ
   ['inputTitle', 'inputAuthor'].forEach(function(id) {
